@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>台灣縣市古蹟與特色產品查詢系統</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #005f73;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        select, button, input {
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+
+        #info-display, #practice-area {
+            background-color: white;
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .correct-answer {
+            color: green;
+        }
+
+        .wrong-answer {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>台灣縣市古蹟與特色產品查詢系統</h1>
+    </header>
+    <main>
+        <section>
+            <label for="city-select">選擇縣市：</label>
+            <select id="city-select" onchange="displayInfo()">
+                <option value="">--請選擇一個縣市--</option>
+                <option value="taipei">台北市</option>
+                <option value="newTaipei">新北市</option>
+                <option value="taoyuan">桃園市</option>
+                <option value="taichung">台中市</option>
+                <option value="tainan">台南市</option>
+                <option value="kaohsiung">高雄市</option>
+                <option value="keelung">基隆市</option>
+                <option value="hsinchu">新竹市</option>
+                <option value="hsinchuCounty">新竹縣</option>
+                <option value="miaoli">苗栗縣</option>
+                <option value="changhua">彰化縣</option>
+                <option value="nantou">南投縣</option>
+                <option value="yunlin">雲林縣</option>
+                <option value="chiayi">嘉義市</option>
+                <option value="chiayiCounty">嘉義縣</option>
+                <option value="pingtung">屏東縣</option>
+                <option value="yilan">宜蘭縣</option>
+                <option value="hualien">花蓮縣</option>
+                <option value="taitung">台東縣</option>
+                <option value="penghu">澎湖縣</option>
+                <option value="kinmen">金門縣</option>
+                <option value="lienchiang">連江縣</option>
+            </select>
+        </section>
+        <section id="info-display">
+            <p>請先選擇一個縣市你/妳想要看的古蹟和特產！</p>
+            <!-- 古蹟與特色產品資訊將在這裡顯示 -->
+        </section>
+<footer>本服務由Taiwan Walking Cat 維護，資料來源：ChatGPT，特此聲明</footer><br>
+
+</script>
+
+
+    </main>
+    <script>
+         const cityData = {
+    taipei: {
+        landmarks: '國立故宮博物院, 中正紀念堂',
+        specialties: '小吃, 台灣啤酒'
+    },
+    newTaipei: {
+        landmarks: '九份老街, 碧潭風景區',
+        specialties: '芋圓冰, 淡水魚丸'
+    },
+    taoyuan: {
+        landmarks: '大溪老街, 八德落雨松風景區',
+        specialties: '酥餅, 龜山島'
+    },
+    taichung: {
+        landmarks: '東海大學, 彩虹眷村',
+        specialties: '豆干, 杏仁茶'
+    },
+    tainan: {
+        landmarks: '安平古堡, 奇美博物館',
+        specialties: '台南擔仔麵, 蓮霧'
+    },
+    kaohsiung: {
+        landmarks: '旗津風景區, 高雄85大樓',
+        specialties: '高雄捲, 擔仔麵'
+    },
+    keelung: {
+        landmarks: '基隆廟口夜市, 野柳地質公園',
+        specialties: '基隆肉圓, 鼎邊豆腐'
+    },
+    hsinchu: {
+        landmarks: '東門城, 新竹漁港',
+        specialties: '新竹米糕, 鮮奶包'
+    },
+    hsinchuCounty: {
+        landmarks: '六福村, 尖石鄉',
+        specialties: '尖石茶, 山豬肉'
+    },
+    miaoli: {
+        landmarks: '南庄老街, 苗栗客家文化村',
+        specialties: '客家菜, 苗栗香腸'
+    },
+    changhua: {
+        landmarks: '鹿港老街, 彰化鐵道藝術村',
+        specialties: '鹿港米糕, 彰化肉圓'
+    },
+    nantou: {
+        landmarks: '日月潭, 清境農場',
+        specialties: '日月潭紅茶, 梅干扣肉'
+    },
+    yunlin: {
+        landmarks: '古坑綠色隧道, 北港朝天宮',
+        specialties: '雲林茶葉蛋, 擂茶'
+    },
+    chiayi: {
+        landmarks: '阿里山, 奮起湖',
+        specialties: '阿里山茶, 森林鐵路便當'
+    },
+    chiayiCounty: {
+        landmarks: '國立中正文化中心, 嘉義檜意森活村',
+        specialties: '嘉義火雞肉飯, 檜木香氛產品'
+    },
+    pingtung: {
+        landmarks: '墾丁國家公園, 屏東觀光田園鐵道',
+        specialties: '墾丁烤肉, 東港鯛魚意麵'
+    },
+    yilan: {
+        landmarks: '冬山河親水公園, 宜蘭傳統藝術中心',
+        specialties: '宜蘭蔥餅, 五結綠蔬粿'
+    },
+    hualien: {
+        landmarks: '太魯閣國家公園, 花蓮港',
+        specialties: '花蓮魯肉飯, 花蓮麻糬'
+    },
+    taitung: {
+        landmarks: '綠島, 海生館',
+        specialties: '台東粽子, 金城武豆漿'
+    },
+    penghu: {
+        landmarks: '澎湖跨海大橋, 澎湖龍門瀑布',
+        specialties: '澎湖螃蟹, 七美鳳梨'
+    },
+    kinmen: {
+        landmarks: '金門國家公園, 金門老街',
+        specialties: '金門高粱酒, 花生糖'
+    },
+    lienchiang: {
+        landmarks: '東引燈塔, 連江藍洞',
+        specialties: '連江美酒, 瓜條酥'
+    }
+};
+
+        function displayInfo() {
+            const select = document.getElementById('city-select');
+            const city = select.value;
+            const display = document.getElementById('info-display');
+
+            if (city) {
+                const info = cityData[city];
+                display.innerHTML = `<h2>古蹟</h2><p>${info.landmarks}</p><h2>特色產品</h2><p>${info.specialties}</p>`;
+            } else {
+                display.innerHTML = '';
+            }
+        }
+
+        const questions = [
+            { 
+                question: '問題一：古蹟和特色產品之間的關係是什麼？', 
+                answer: '文化傳承'
+            },
+            { 
+                question: '問題二：請描述您知道的一個古蹟。',
+                answer: '國立故宮博物院是台灣最著名的博物館，收藏著大量珍貴的中國文物。'
+            },
+            { 
+                question: '問題三：特色產品如何反映一個地區的文化？',
+                answer: '特色產品通常由當地獨特的材料和技術製成，反映了該地區的傳統和生活方式。'
+            },
+            { 
+                question: '問題四：請解釋特色產品對當地經濟的影響。',
+                answer: '特色產品的生產和銷售促進了當地經濟的發展，創造就業機會並增加了收入。'
+            },
+            { 
+                question: '問題五：您認為哪個縣市的古蹟最值得一遊？為什麼？',
+                answer: '新竹市的東門城是我認為最值得一遊的古蹟，因為它有著悠久的歷史和精美的建築。'
+            },
+            { 
+                question: '問題六：描述一個您喜歡的台灣特色產品。',
+                answer: '我喜歡台灣的鳳梨酥，它的外皮酥脆，內餡酸甜可口，是台灣的經典美食之一。'
+            },
+            { 
+                question: '問題七：您認為特色產品如何推動地方旅遊？',
+                answer: '特色產品吸引了許多遊客前來品嚐和購買，從而促進了地方旅遊的發展。'
+            },
+            { 
+                question: '問題八：請講述您對一個縣市的特色產品的印象。',
+                answer: '我對台南市的虱目魚麵線印象深刻，它的湯頭鮮美，配上彈牙的麵線，非常美味。'
+            },
+            { 
+                question: '問題九：古蹟與特色產品之間有什麼相似之處？',
+                answer: '古蹟和特色產品都是一個地區獨有的文化象徵，反映了該地區的歷史和傳統。'
+            },
+            { 
+                question: '問題十：您知道的一個特色產品對該地區的重要性是什麼？',
+                answer: '彰化縣的鹿港米糕是當地的特色產品，因其獨特的口感和製作工藝而聞名，對當地經濟非常重要。'
+            },
+            // 在這裡添加更多問題...
+        ];
+
+        let currentQuestion = {};
+
+        function generateQuestion() {
+            const questionDisplay = document.getElementById('question-display');
+            const randomIndex = Math.floor(Math.random() * questions.length);
+            currentQuestion = questions[randomIndex];
+            questionDisplay.innerHTML = `<p>${currentQuestion.question}</p>`;
+            document.getElementById('answer-result').innerHTML = '';
+            document.getElementById('user-answer').value = '';
+        }
+
+        function checkAnswer() {
+            const userAnswer = document.getElementById('user-answer').value.trim();
+            const answerResult = document.getElementById('answer-result');
+            
+            if (userAnswer.toLowerCase() === currentQuestion.answer.toLowerCase()) {
+                answerResult.innerHTML = '<p class="correct-answer">答案正確！🎉</p>';
+            } else {
+                answerResult.innerHTML = '<p class="wrong-answer">答案錯誤！😔</p>';
+            }
+        }
+    </script>
+</body>
+</html>
